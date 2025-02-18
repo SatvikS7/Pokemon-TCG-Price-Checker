@@ -6,6 +6,7 @@ import "./css/ImageUploader.css";
 const ImageUploader: React.FC = () => {
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [uploadedImageUrl, setUploadedImageUrl] = useState<string | null>(null);
+  const [extractedText, setExtractedText] = useState<string | null>(null);
 
   const onDrop = async (acceptedFiles: File[]) => {
     const file = acceptedFiles[0];
@@ -20,6 +21,7 @@ const ImageUploader: React.FC = () => {
       });
 
       setUploadedImageUrl(response.data.imageUrl);
+      setExtractedText(response.data.extractedText);
     } catch (error) {
       console.error("Error uploading image:", error);
     }
@@ -52,6 +54,13 @@ const ImageUploader: React.FC = () => {
           <a href={uploadedImageUrl} target="_blank" rel="noopener noreferrer">
             {uploadedImageUrl}
           </a>
+        </div>
+      )}
+
+      {extractedText && (
+        <div className="ocr-result">
+          <h3>Extracted Text:</h3>
+          <p>{extractedText}</p>
         </div>
       )}
     </div>
